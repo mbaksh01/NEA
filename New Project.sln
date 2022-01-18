@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30225.117
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32104.313
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "New Project", "New Project\New Project.csproj", "{8BF7FD8C-89BC-445C-8C55-87FC4FFC9D02}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalWarmingModel", "New Project\GlobalWarmingModel.csproj", "{8BF7FD8C-89BC-445C-8C55-87FC4FFC9D02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

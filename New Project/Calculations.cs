@@ -1,15 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using GlobalWarmingModel.Servies;
 
 namespace GlobalWarmingModel
 {
-    class Calculations
+    public class Calculations
     {
-        public static Color GetEmissionColour(string nation, int year, Color color)
+        private readonly IFileReader _fileReader; 
+
+        public Calculations(IFileReader fileReader)
+        {
+            _fileReader = fileReader;
+        }
+
+        public Color GetEmissionColour(string nation, int year, Color color)
         {
             Color[] colors = new Color[] { Color.Crimson, Color.Red, Color.Orange, Color.Yellow, Color.GreenYellow, Color.Green };
-            List<int> values = FileReader.GetNationalCO2(nation);
+            List<int> values =  _fileReader.GetNationalCO2(nation);
 
             try
             {
@@ -42,16 +50,16 @@ namespace GlobalWarmingModel
             return color;
         }
 
-        public static Color GetAverageSeaLevelRise(int year)
+        public Color GetAverageSeaLevelRise(int year)
         {
             int r = 0, g = 0, b = 0;
 
-            FileReader.GetSeaLevel(year, 'm');
+            _fileReader.GetSeaLevel(year, 'm');
 
             return Color.FromArgb(r, g, b);
         }
 
-        public static double GetStandardDeviation(List<double> StDev, List<int> Numeric, List<double> Mean)
+        public double GetStandardDeviation(List<double> StDev, List<int> Numeric, List<double> Mean)
         {
             List<double> Sigma = new List<double> { };      // list for each sigma from each set
             List<long> SigmaSquared = new List<long> { };   
