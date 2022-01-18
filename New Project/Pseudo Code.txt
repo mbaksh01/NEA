@@ -1,0 +1,144 @@
+///-----Scroll Bar-----/// ~ done
+scroll_bar
+scroll_bar_Values[40]
+swv
+
+scroll_bar.Minimum = 1950;
+scroll_bar.Maximum = 2020;
+
+swv = get Scroll_Bar_Value()
+
+///----Hovering the curesor over the Graph----///
+cp
+cursor_tooltip
+data_location = get dropdown_position()		// gets data which corresponds to position of drop down e.g position 1 = sea level data
+
+cp = get Cursor_Position()					// tell me where the position of the cursor is
+
+Higlight_Area[cp]							// highlight a region on the graph corresponding to the position of the cursor
+cursor_tooltip = get data_location(cp)		// setting the relevant data to the tool tip 
+
+// instructions; make the sections and tool tips. get the data and sum for that region. set the calculated data to the text in the tool tip box
+
+s1, s2, s3, s4, s5															// s -> section
+tT1, tT2, tT3, tT4, tT5														// tT -> toolTip
+if (dropdown_selection == "graph")											// only runs if in graph mode.
+	for i = 1 to i = 5														// loop to get information about each section		
+		tT[i].s[i].Text = get_tooltip_text(s[i], dropdown_options.Value);	// setting the text of the tool tip to the data related to that section of the graph
+		tT[x].Visible = true;												// making the tool tips only visible in graph mode
+
+///----World Map Image----/// ~ done
+Globe_imagebox = globe_image.jpg	// setting the background to the globe image.
+
+///----Colour Scale----///
+colour_imagebox = image_colour_scale.jpg		// sets the image of the temperature imagebox to the scale diagram
+if dropdown_options == "Temp"					// checks what position dropdown is in and compairs it
+	lable_red.Text = "High Temperature"			// sets the lable next to red to high temperature.
+	lable_purple.Text = "Low Temperature"		// repeat if statment for each option in dropdown.
+
+///----CO2 Graph----/// ~ done
+CO2_graph_imagebox = image_CO2_Graph
+
+///----Temperature Graph----/// ~ done
+temperature_graph_imagebox = image_temperature_graph
+
+///----Sea Level Graph----/// ~ done
+sea_level_graph_imagebox = image_sea_level_graph
+
+///----Main Interface Dropdown----/// ~ done
+dropdown_options
+dropdown_options.position[0] = "Sea Level"
+dropdown_options.position[1] = "Carbon Dioxide Levels"
+dropdown_options.position[2] = "Global Temperature"
+dropdown_options.position[3] = "Ice Sheets"
+dropdown_options.position[4] = "Arctic Sea Ice"
+
+dropdown_selction
+dropdown_selction[0] = "World Map"
+dropdown_selction[1] = "Graphs"
+
+
+///----Drawing Circles----///
+Colour[“Red”, “Orange”, “Yellow”, “Green”, “Blue”, “Purple”]	// after calculating the data, colour of circle set to either one of these
+data_points_name["UK", "Europe", "China", "USA"]				// list of all countries/continents i have data for
+coordinates[,]													// arrays in parallel to store the coordinates on the map image 
+circles[,]														// 2d array to store all the circles created
+
+for (int n = 0, n > data_point_names.Length, n++)				// for loop to create as many circles as needed						
+{
+	Create circle = new circle_shape(position x, position y; visible = false, transparency = 50%)	// creating the circle at a given location based off of coordinates stored in the coordinates array
+	circle.tag = data_points_name[x]							// adding a name to the created circle, just so its easier for me
+	circles[x, x] = circle, circle.tag							// storing the circle and the circle name in an array called circles
+}
+
+Data(data_type, Scroll_Bar_Position())							// retriving data based of the position of the scroll bar e.g. in position 2020 -> get data for 2020
+
+Calculated_value = Data^2 MOD 10								// scaling the data to match the colour scale  
+
+Try																// try-catch just incase a value is not with in the range of the colour array
+	Circle_UK.Fill = Colour[Calculated_value]					// setting the fill of the circle to the correspoing colour
+Catch (exception ex)											// additional part assuning the try failed
+	If calculated_value > 5										
+		Circle_UK.Fill = No Fill								// setting the fill to no fill if calculated_value is past purple in the colours array
+	Else if calculated_value < 0
+		Circle_UK.Fill = “Red”									// setting the fill to red if calculated_value is less than 0
+
+Circle_UK.Visible = true										// making the circle visible after the colour of it has been calculated
+
+///----Data----/// ~ done
+data_type														// what file to open
+scroll_bar_position												// the year currently being viewed
+data_position_found = false										// bool to stop the program from running if the year required is found
+requested_data													// value to be returned
+i = 0
+
+file_reader file = new filereader(data_type + scroll_bar_position, read)	// open required file
+while(data_position_found == false)											// loop based on whether the year has be found 
+	if(file.Read[i] == data_type + scroll_bar_position)						
+		requested_data = file.Read[i + 2]									// gets the data being looked for
+		data-position_found = true											// stops the loop
+	else
+		i++																	// variable to indicate what line needs to be read
+
+return requested_data
+
+///----tooltip_text----///
+sec_num = s[i]
+list ints = new list {}
+string[] filepaths = new string["Sea Level.txt", "CO2.txt", ..., "Ice Sheets.txt"]	// array to store file paths of files bases on the section requried
+int[] ranges = new int[(1980, 1985),(1985, 1990),...,(2015, 2020)]
+int total
+
+file_reader file = new filereader(filepaths[s[i]], read)		// opening required file
+
+for(file.Length)
+	int i = file.Read()			
+	if (i >= ranges[sec_num[0]] && i <= ranges[sec_num[2]])		// checking if the values are within range. e.g. 2000-2005 			
+		ints.Add(i)												// if they are adds to integer list
+
+foreach(int i in ints)
+	total += i								// total all values
+
+///----Standard Deviation----///
+List(int) st_dev, n, mean, sigma			// list to contain all the values of my differnt data sets
+List(long) sigma_squared
+long sigma_squared_total					// 64bit double to store variable
+double final_st_dev
+
+for(int i = 0 to i = st_dev.length - 1)
+	sigma_squared[i] = (st_dev[i]^2 + mean[i]^2) * n[i] // deduce sigma x squared from the stdev
+	sigma = mean[i] * n[i]								// deduce sigma x from mean
+	n += n[i]											// n for the number of observations
+
+final_st_dev = sqrt(sigma_squared.total/n.total - sigma.total/n.total)	// fromula for stdev
+
+///----Main Graph----///
+double x, y		// x-axis = year, y-axis = mean
+int[] years = [1980, 1985, ... 2015, 2020]
+
+foreach int i in years
+	x = years[i]
+	y = Data(i)
+	PlotPoint(x, y)			// plot each point once it the corresponding x and y values have been found
+
+

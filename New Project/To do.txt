@@ -1,0 +1,14 @@
+﻿To Do:
+1.	Scroll bar, split in  5-year chunks. ~ done
+	Leaving as one year increments for accuracy and not too power intensive.
+2.	Data for sea level, temperature, CO2, from ~1985 up to current day. ~ done
+3.	Change the globe to more graphs. ~ done
+	Having both, main focus on world map
+4.	Adjust scroll bar more pointer style. ~ done
+5.  Mouse hovering over countries to show detail in information box.
+6.  Have a circle which adjusts to the size of the emissions.
+7.  Use colours to represent the intensity.
+8.	Add graphs to go into the right-hand side boxes. ~ done
+9.	Lock the form to one size. Intended for desktop use (as desided by my end user) therefore it dosent need rescsaling.
+	Posible next step to improve the form would be to rescale the form.
+10.	Tooltips for graph.

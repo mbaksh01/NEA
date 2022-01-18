@@ -1,0 +1,11 @@
+﻿Objectives
+1.	Visual representation of data.
+2.	Circles over countries to show data.
+3.	Circles become a certain colour to match colour scale.
+4.	Colour scale match corresponding data.
+5.	Data for countries or continents.
+6.	Calculate numbers and give them a corresponding colour which can be drawn on screen.
+7.	Find an image of the world map.
+8.  For loop to create multipule circles.
+9.  Add each circle to a circles array.
+10. Tag each index with a country name.
